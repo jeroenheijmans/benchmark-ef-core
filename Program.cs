@@ -1,4 +1,5 @@
 ﻿using System;
+using BenchmarkDotNet.Running;
 using Microsoft.EntityFrameworkCore;
 
 namespace BenchmarkEfCore
@@ -6,6 +7,15 @@ namespace BenchmarkEfCore
     public class Program
     {
         static void Main(string[] args)
+        {
+            // RunAsHelloWorld();
+            BenchmarkRunner.Run<Benchmark>();
+
+            Console.WriteLine("Press any key to quit");
+            Console.ReadKey();
+        }
+
+        private static void RunAsHelloWorld()
         {
             var factory = new FooDbContextFactory();
 
@@ -18,9 +28,6 @@ namespace BenchmarkEfCore
 
                 context.SaveChanges();
             }
-
-            Console.WriteLine("Hello World!");
-            Console.ReadKey();
         }
     }
 }

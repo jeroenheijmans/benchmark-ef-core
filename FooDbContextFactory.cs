@@ -5,16 +5,23 @@ namespace BenchmarkEfCore
 {
     internal class FooDbContextFactory : IDesignTimeDbContextFactory<FooDbContext>
     {
-        private const string connectionString = "Server=(localdb)\\mssqllocaldb;Database=FooBar;Trusted_Connection=True;";
-        private readonly DbContextOptionsBuilder<FooDbContext> builder;
+        private const string defaultConnectionString = "Server=(localdb)\\mssqllocaldb;Database=FooBar;Trusted_Connection=True;";
+        private readonly DbContextOptionsBuilder<FooDbContext> optionsBuilder;
 
         public FooDbContextFactory()
+            : this(defaultConnectionString)
+        { }
+
+        public FooDbContextFactory(string connectionString)
         {
-            builder = new DbContextOptionsBuilder<FooDbContext>()
-                .UseSqlServer(connectionString);
+            optionsBuilder = new DbContextOptionsBuilder<FooDbContext>()
+               .UseSqlServer(connectionString);
         }
 
-        public FooDbContext CreateDbContext(string[] args = null)
-            => new FooDbContext(builder.Options);
+        public FooDbContext CreateDbContext(string[] args)
+            => CreateDbContext();
+
+        public FooDbContext CreateDbContext()
+            => new FooDbContext(optionsBuilder.Options);
     }
 }
